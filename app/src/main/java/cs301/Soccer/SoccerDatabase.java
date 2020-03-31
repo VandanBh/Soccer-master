@@ -76,6 +76,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpGoals(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpGoals();
+            return true;
+        }
         return false;
     }
 
@@ -86,6 +91,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpAssists(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpAssists();
+            return true;
+        }
         return false;
     }
 
@@ -96,6 +106,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpShots(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpShots();
+            return true;
+        }
         return false;
     }
 
@@ -106,6 +121,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpSaves(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpSaves();
+            return true;
+        }
         return false;
     }
 
@@ -116,6 +136,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpFouls(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpFouls();
+            return true;
+        }
         return false;
     }
 
@@ -126,6 +151,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpYellowCards(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpYellowCards();
+            return true;
+        }
         return false;
     }
 
@@ -136,6 +166,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean bumpRedCards(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.get(key).bumpRedCards();
+            return true;
+        }
         return false;
     }
 
@@ -147,7 +182,17 @@ public class SoccerDatabase implements SoccerDB {
     @Override
     // report number of players on a given team (or all players, if null)
     public int numPlayers(String teamName) {
-        return -1;
+        if(teamName == null){
+            return map.size();
+        } else {
+            int num = 0;
+            for (HashMap.Entry<String, SoccerPlayer> entry : map.entrySet()) {
+                if(entry.getValue().getTeamName().equals(teamName)){
+                    num++;
+                }
+            }
+            return num;
+        }
     }
 
     /**
