@@ -203,6 +203,31 @@ public class SoccerDatabase implements SoccerDB {
     // get the nTH player
     @Override
     public SoccerPlayer playerNum(int idx, String teamName) {
+        if(!map.isEmpty()){
+            if(teamName == null){
+                Set<String> mapSet = map.keySet();
+                Object[] keys = mapSet.toArray();
+                if(idx>=map.size()){
+                    return null;
+                } else {
+                    return map.get(keys[idx]);
+                }
+            } else {
+                Set<String> mapSet = map.keySet();
+                String[] keys = (String[]) mapSet.toArray();
+                ArrayList<SoccerPlayer> list = new ArrayList<SoccerPlayer>();
+                for(int i = 0; i<keys.length; i++){
+                    if(map.get(keys[i]).getTeamName().equals(teamName)){
+                        list.add(map.get(keys[i]));
+                    }
+                }
+                if(idx>=list.size()){
+                    return null;
+                } else {
+                    return list.get(idx);
+                }
+            }
+        }
         return null;
     }
 
