@@ -36,9 +36,8 @@ public class SoccerDatabase implements SoccerDB {
         } else {
             SoccerPlayer newP = new SoccerPlayer(firstName, lastName, uniformNumber, teamName);
             map.put(key, newP);
+            return true;
         }
-
-        return false;
     }
 
     /**
@@ -48,6 +47,11 @@ public class SoccerDatabase implements SoccerDB {
      */
     @Override
     public boolean removePlayer(String firstName, String lastName) {
+        String key = getKey(firstName, lastName);
+        if(map.containsKey(key)){
+            map.remove(key);
+            return true;
+        }
         return false;
     }
 
