@@ -339,7 +339,12 @@ public class SoccerDatabase implements SoccerDB {
     // return list of teams
     @Override
     public HashSet<String> getTeams() {
-        return new HashSet<String>();
+        HashSet<String> teamList = new HashSet<String>();
+        for (HashMap.Entry<String, SoccerPlayer> entry : map.entrySet()) {
+            if(!teamList.contains(entry.getValue().getTeamName())){
+                teamList.add(entry.getValue().getTeamName());
+            }
+        }
+        return teamList;
     }
-
 }
