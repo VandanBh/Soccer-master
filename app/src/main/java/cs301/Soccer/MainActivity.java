@@ -676,7 +676,7 @@ public class MainActivity extends Activity {
             }
 
             // attempt the operation; if unsuccessful, flash
-            if (!database.writeData(new File(getFilesDir(),fileName))) {
+            if (!database.writeData(new File(getFilesDir(), fileName))) {
                 flash();
                 return;
             }

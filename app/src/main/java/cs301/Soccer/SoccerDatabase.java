@@ -3,6 +3,7 @@ package cs301.Soccer;
 import android.util.Log;
 import cs301.Soccer.soccerPlayer.SoccerPlayer;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -238,7 +239,53 @@ public class SoccerDatabase implements SoccerDB {
      */
     // read data from file
     @Override
-    public boolean readData(File file) {
+    public boolean readData(File file){
+        Scanner sc;
+        try{
+            sc = new Scanner(file);
+        } catch (FileNotFoundException e){
+            return false;
+        }
+        while(sc.hasNextLine()){
+            String first = sc.nextLine();
+            String last = sc.nextLine();
+            int uniform = Integer.parseInt(sc.nextLine());
+            String team = sc.nextLine();
+            int goals = Integer.parseInt(sc.nextLine());
+            int assists = Integer.parseInt(sc.nextLine());
+            int shots = Integer.parseInt(sc.nextLine());
+            int saves = Integer.parseInt(sc.nextLine());
+            int fouls = Integer.parseInt(sc.nextLine());
+            int yellowCards = Integer.parseInt(sc.nextLine());
+            int redCards = Integer.parseInt(sc.nextLine());
+            String key = getKey(first, last);
+            if(!map.containsKey(key)){
+                SoccerPlayer sp = new SoccerPlayer(first, last, uniform, team);
+                for(int i = 0; i<goals; i++){
+                    sp.bumpGoals();
+                }
+                for(int i = 0; i<assists; i++){
+                    sp.bumpAssists();
+                }
+                for(int i = 0; i<shots; i++){
+                    sp.bumpShots();
+                }
+                for(int i = 0; i<saves; i++){
+                    sp.bumpSaves();
+                }
+                for(int i = 0; i<fouls; i++){
+                    sp.bumpFouls();
+                }
+                for(int i = 0; i<yellowCards; i++){
+                    sp.bumpYellowCards();
+                }
+                for(int i = 0; i<redCards; i++){
+                    sp.bumpRedCards();
+                }
+                map.put(key, sp);
+            }
+        }
+
         return file.exists();
     }
 
@@ -249,8 +296,29 @@ public class SoccerDatabase implements SoccerDB {
      */
     // write data to file
     @Override
-    public boolean writeData(File file) {
-        return false;
+    public boolean writeData(File file){
+        PrintWriter pw;
+        try{
+            pw = new PrintWriter(file);
+        } catch (FileNotFoundException e){
+            return false;
+        }
+        for (HashMap.Entry<String, SoccerPlayer> entry : map.entrySet()) {
+            pw.println(logString(entry.getValue().getFirstName()));
+            pw.println(logString(entry.getValue().getLastName()));
+            pw.println(logString("" + entry.getValue().getUniform()));
+            pw.println(logString(entry.getValue().getTeamName()));
+            pw.println(logString("" + entry.getValue().getGoals()));
+            pw.println(logString("" + entry.getValue().getAssists()));
+            pw.println(logString("" + entry.getValue().getShots()));
+            pw.println(logString("" + entry.getValue().getSaves()));
+            pw.println(logString("" + entry.getValue().getFouls()));
+            pw.println(logString("" + entry.getValue().getYellowCards()));
+            pw.println(logString("" + entry.getValue().getRedCards()));
+        }
+        pw.flush();
+        pw.close();
+        return true;
     }
 
     /**
